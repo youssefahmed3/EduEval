@@ -1,4 +1,4 @@
-using Application.Dtos;
+using Shared.Dtos;
 using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;

@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Infrastructure.Repositories;
 using Infrastructure.Seeds;
+using Application.Mappers;
+using AutoMapper;
+// using Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,14 +90,22 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-/* builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<ICategoryRepsoitory, CategoryRepsoitory>(); */
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IExamRepository, ExamRepository>();
+builder.Services.AddScoped<IQuestionsRepository, QuestionsLibraryRepository>();
+builder.Services.AddScoped<IStudentExamRepository, StudentExamRepository>();
+
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
     options.AddPolicy("Student", policy => policy.RequireRole("Student"));
 });
+
+// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// builder.Services.AddAutoMapper(typeof(SubjectMappers));
+// builder.Services.AddAutoMapper(typeof(ExamMappers));
+builder.Services.AddAutoMapper(typeof(QuestionMappers));
 
 
 var app = builder.Build();
@@ -107,6 +118,8 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     await RoleSeeder.SeedRolesAsync(serviceProvider);
+    var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+    mapper.ConfigurationProvider.AssertConfigurationIsValid();
 }
 
 if (app.Environment.IsDevelopment())

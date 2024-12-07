@@ -30,8 +30,8 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("CreatedAt")
-                        .HasColumnType("float");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("Duration")
                         .HasColumnType("float");
@@ -131,8 +131,12 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TakenAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("SubmittedAt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TakenAt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId", "ExamId");
 

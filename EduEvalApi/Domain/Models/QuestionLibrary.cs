@@ -1,19 +1,25 @@
 
 
+using System.Text.Json.Serialization;
+
 namespace Domain.Models;
 
 public class QuestionLibrary {
-    public required int Id { get; set; } // primary Key
-    public required string QuestionText { get; set; }
-    public required string Difficulty { get; set; }
+    public  int Id { get; set; } // primary Key
+    public  string QuestionText { get; set; }
+    public  string Difficulty { get; set; }
     public int SubjectId { get; set; }
 
     // public required string Type { get; set; }
-    public required string CreatedAt { get; set; }
-    public required Subject Subject { get; set; }
-    
-    public List<QuestionChoices> Choices { get; set; } // Navigation property
+    public  string CreatedAt { get; set; } = DateTime.Now.ToString();
 
-    public List<ExamQuestions> ExamQuestions { get; set; }
+    [JsonIgnore]
+    public Subject Subject { get; set; }
+    
+    // [JsonIgnore]
+    public List<QuestionChoices> Choices { get; set; } // Navigation property
+    [JsonIgnore]
+
+    public List<ExamQuestions> ExamQuestions { get; set; } = new List<ExamQuestions>();
 
 }

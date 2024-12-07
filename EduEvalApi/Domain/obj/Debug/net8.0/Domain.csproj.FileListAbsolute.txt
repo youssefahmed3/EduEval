@@ -10,6 +10,7 @@ E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\refin
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\Domain.pdb
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\ref\Domain.dll
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
-E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\bin\Debug\net8.0\Application.dll
-E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\bin\Debug\net8.0\Application.pdb
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\Domain.csproj.Up2Date
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\bin\Debug\net8.0\Shared.dll
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Domain\bin\Debug\net8.0\Shared.pdb

@@ -10,5 +10,5 @@ public class QuestionChoices {
     public required bool IsCorrect { get; set; } // Forign Key
     
     [JsonIgnore]
-    public required QuestionLibrary QuestionLibrary { get; set; }
+    public QuestionLibrary QuestionLibrary { get; set; }
 }

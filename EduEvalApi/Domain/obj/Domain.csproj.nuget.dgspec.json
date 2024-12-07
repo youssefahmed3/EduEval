@@ -4,14 +4,14 @@
     "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj": {
+    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj",
-        "projectName": "Application",
-        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj",
+        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\youss\\.nuget\\packages\\",
-        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\obj\\",
+        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\youss\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -25,7 +25,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj": {
+                "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -68,14 +72,14 @@
         }
       }
     },
-    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
-        "projectName": "Domain",
-        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj",
         "packagesPath": "C:\\Users\\youss\\.nuget\\packages\\",
-        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
+        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\youss\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -89,11 +93,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj": {
-                "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -110,12 +110,6 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

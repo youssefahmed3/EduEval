@@ -17,3 +17,6 @@ E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\bin\Debug\net8
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\bin\Debug\net8.0\Application.pdb
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\bin\Debug\net8.0\Domain.pdb
 E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\obj\Debug\net8.0\Infrastr.15EFFBFE.Up2Date
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\bin\Debug\net8.0\Shared.dll
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Infrastructure\bin\Debug\net8.0\Shared.pdb

@@ -1,4 +1,4 @@
-using Application.Dtos;
+using Shared.Dtos;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
