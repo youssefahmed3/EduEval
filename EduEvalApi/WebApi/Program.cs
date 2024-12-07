@@ -94,6 +94,7 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IExamRepository, ExamRepository>();
 builder.Services.AddScoped<IQuestionsRepository, QuestionsLibraryRepository>();
 builder.Services.AddScoped<IStudentExamRepository, StudentExamRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 builder.Services.AddAuthorization(options =>
@@ -105,7 +106,8 @@ builder.Services.AddAuthorization(options =>
 // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // builder.Services.AddAutoMapper(typeof(SubjectMappers));
 // builder.Services.AddAutoMapper(typeof(ExamMappers));
-builder.Services.AddAutoMapper(typeof(QuestionMappers));
+builder.Services.AddAutoMapper(typeof(UserMappers));
+// builder.Services.AddAutoMapper(typeof(QuestionMappers));
 
 
 var app = builder.Build();

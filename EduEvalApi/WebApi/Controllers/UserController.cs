@@ -1,7 +1,10 @@
+using AutoMapper;
 using Domain.Interfaces;
+using Domain.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Dtos;
 
 namespace WebApi.Controllers
 {
@@ -11,9 +14,13 @@ namespace WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IStudentExamRepository _studentExamRepository;
-        public UserController(IStudentExamRepository studentExamRepository)
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        public UserController(IStudentExamRepository studentExamRepository, IUserRepository userRepository, IMapper mapper)
         {
             _studentExamRepository = studentExamRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [Authorize(Roles = "Student")]
@@ -31,6 +38,28 @@ namespace WebApi.Controllers
 
             var examHistory = await _studentExamRepository.GetStudentExam(studentId);
             return Ok(examHistory);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Students")]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            IEnumerable<User> allStudents = await _userRepository.GetAllStudents();
+            return Ok(allStudents);
+        }
+
+        [Authorize(Roles = "Student")]
+        [HttpGet("Student/profile")]
+        public async Task<IActionResult> GetCurrentStudentProfile()
+        {
+            string currentUserId = User.FindFirst("userId")!.Value;
+            if (currentUserId == null)
+            {
+                return Forbid();
+            }
+            User student = await _userRepository.GetSingleStudent(currentUserId);
+            UserProfileDto studentAfterMapping = _mapper.Map<UserProfileDto>(student);
+            return Ok(studentAfterMapping);
         }
     }
 }
