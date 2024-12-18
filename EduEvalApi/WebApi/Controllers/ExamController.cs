@@ -56,6 +56,7 @@ namespace WebApi.Controllers
             }
 
         }
+
         [Authorize]
         [HttpGet("GetExamQuestions/{examId}")]
         public async Task<IEnumerable<ExamQuestions>> GetExamQuestions(int examId)
@@ -169,38 +170,43 @@ namespace WebApi.Controllers
         public async Task<ActionResult> DeleteQuestionToExam(int examId, int questionId)
         {
             Exam? examDb = await _examRepository.GetSingleExam(examId);
-            if (examDb != null)
+            if (examDb.ExamQuestions.Any(eq => eq.ExamId == examId && eq.QuestionId == questionId))
             {
-                QuestionLibrary? questionDb = await _questionsLibraryRepository.GetSingleQuestion(questionId);
+                var questionToRemove = examDb.ExamQuestions
+                                             .FirstOrDefault(eq => eq.ExamId == examId && eq.QuestionId == questionId);
 
-                if (questionDb != null)
+                if (questionToRemove != null)
                 {
-                    var examQuestion = new ExamQuestions
+                    examDb.ExamQuestions.Remove(questionToRemove);
+
+                    if (_examRepository.SaveChanges())
                     {
-                        ExamId = examId,
-                        QuestionId = questionId
-                    };
-                    if(examDb.ExamQuestions.Contains(examQuestion)) {
-
-                        examDb.ExamQuestions.Remove(examQuestion);
-
-                        if (_examRepository.SaveChanges())
-                        {
-                            return Ok("Question Added To " + examId + "Succesfully");
-                        }
-                        return BadRequest("Error Adding Question To " + examId);
+                        return Ok($"Question removed from exam {examId} successfully.");
                     }
-                    
-                    return BadRequest("Question Does not belong To The Exam");
-
+                    return BadRequest($"Error removing question from exam {examId}.");
                 }
-
-                return BadRequest("Question Not Found");
             }
-            return BadRequest("Exam Not Found");
+            return BadRequest("Question does not belong to the exam.");
 
         }
-    
-    
+
+
+
+        [Authorize]
+        [HttpGet("GetSingleExam/{examId}")]
+        public async Task<ActionResult<Exam>> GetSingleExam(int examId)
+        {
+            Exam exam = await _examRepository.GetSingleExam(examId);
+
+            if (exam != null)
+            {
+                return Ok(exam);
+            }
+            else
+            {
+                return BadRequest(exam);
+            }
+
+        }
     }
 }

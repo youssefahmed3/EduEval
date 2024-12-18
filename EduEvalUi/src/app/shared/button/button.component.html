@@ -1,0 +1,9 @@
+<button
+  class="btn bg-accent_blue text-background hover:bg-primary_navy_blue hover:text-background hover:border-accent_blue hover:border-3 Active:bg-primary_navy_blue Active:text-background Active:border-accent_blue Active:border-3 w-full"
+  [type]="type"
+  [routerLink]="routerLink"
+  routerLinkActive="bg-primary_navy_blue border-accent_blue border-3"
+  (click)="onClick ? onClick() : null" 
+>
+  {{buttonText}}
+</button>

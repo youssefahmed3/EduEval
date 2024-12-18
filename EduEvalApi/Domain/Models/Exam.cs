@@ -13,8 +13,9 @@ public class Exam
 
     // [JsonIgnore]
     public List<ExamQuestions> ExamQuestions { get; set; }
-    [JsonIgnore]
-
+    
+    // [JsonIgnore]
     public Subject Subject { get; set; } // navigation property
+    // [JsonIgnore]
     public List<StudentExams> StudentsExams { get; set; }
 }

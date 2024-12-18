@@ -9,4 +9,6 @@ public class UserProfileDto {
     public bool IsActive { get; set; }
     public string FullName => FirstName + " " + LastName;
 
+    // public List<StudentExamsDto>? StudentExams { get; set; }
+
 }

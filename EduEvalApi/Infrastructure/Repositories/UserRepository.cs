@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAllStudents()
     {
-        IEnumerable<User> Students = await _entityFramework.Users!.Where(u => u.Role == "Student").ToListAsync();
+        IEnumerable<User> Students = await _entityFramework.Users!.Where(u => u.Role == "Student").Include(s => s.StudentsExams).ThenInclude(se=> se.Exam).ToListAsync();
 
         if (Students != null)
         {
@@ -42,7 +42,10 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetSingleStudent(string studentId)
     {
-        User? Student =  await _entityFramework.Users!.Where(s => s.Id == studentId).Where(s => s.Role == "Student").FirstOrDefaultAsync();
+        User? Student = await _entityFramework.Users!.Where(s => s.Id == studentId).Where(s => s.Role == "Student").
+            Include(s => s.StudentsExams)
+                .ThenInclude(se => se.Exam)
+            .FirstOrDefaultAsync();
 
         if (Student != null)
         {
@@ -51,6 +54,20 @@ public class UserRepository : IUserRepository
         else
         {
             throw new Exception("No Student found in the database With This Id.");
+        }
+    }
+
+    public async Task<User> GetSingleAdmin(string adminId)
+    {
+        User? admin = await _entityFramework.Users!.Where(s => s.Id == adminId).Where(s => s.Role == "Admin").FirstOrDefaultAsync();
+
+        if (admin != null)
+        {
+            return admin;
+        }
+        else
+        {
+            throw new Exception("No admin found in the database With This Id.");
         }
     }
 

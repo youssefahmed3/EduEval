@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using Domain.Interfaces;
 using Domain.Models;
@@ -48,18 +49,91 @@ namespace WebApi.Controllers
             return Ok(allStudents);
         }
 
-        [Authorize(Roles = "Student")]
-        [HttpGet("Student/profile")]
-        public async Task<IActionResult> GetCurrentStudentProfile()
+        /*  [Authorize(Roles = "Student")]
+         [HttpGet("Student")]
+         public async Task<IActionResult> GetAllStudents()
+         {
+             IEnumerable<User> allStudents = await _userRepository.GetAllStudents();
+             return Ok(allStudents);
+         }
+  */
+        [Authorize(Roles = "Student, Admin")]
+        [HttpGet("User/profile")]
+        public async Task<IActionResult> GetCurrentUserProfile()
         {
             string currentUserId = User.FindFirst("userId")!.Value;
+            string? currentRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            Console.WriteLine("asddddddddd" + currentRole);
             if (currentUserId == null)
             {
                 return Forbid();
             }
+
+            if (currentRole == "Admin")
+            {
+                User admin = await _userRepository.GetSingleAdmin(currentUserId);
+                UserProfileDto adminAfterMapping = _mapper.Map<UserProfileDto>(admin);
+                return Ok(adminAfterMapping);
+
+            }
+
+
             User student = await _userRepository.GetSingleStudent(currentUserId);
             UserProfileDto studentAfterMapping = _mapper.Map<UserProfileDto>(student);
+
             return Ok(studentAfterMapping);
+        }
+
+        [Authorize(Roles = "Admin, Student")]
+        [HttpPut("EditProfile")]
+        public async Task<IActionResult> EditProfile(UserProfileDto userProfileDto)
+        {
+            string currentUserId = User.FindFirst("userId")!.Value;
+            string? currentRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            // User User;
+            if (currentRole == "Admin")
+            {
+                User currentAdmin = await _userRepository.GetSingleAdmin(currentUserId);
+                if (currentAdmin != null)
+                {
+                    currentAdmin.FirstName = userProfileDto.FirstName;
+                    currentAdmin.LastName = userProfileDto.LastName;
+                    currentAdmin.UserName = userProfileDto.UserName;
+                    currentAdmin.Email = userProfileDto.Email;
+                    if (_userRepository.SaveChanges())
+                    {
+                        return Ok("User " + currentAdmin.FirstName + "Updated successfully");
+                    }
+                    else
+                    {
+                        return BadRequest("Error Saving changes to " + currentAdmin.FirstName);
+                    }
+                }
+                throw new Exception("Error updating User");
+            }
+            if (currentRole == "Student")
+            {
+                User currentStudent = await _userRepository.GetSingleStudent(currentUserId);
+
+                if (currentStudent != null)
+                {
+                    currentStudent.FirstName = userProfileDto.FirstName;
+                    currentStudent.LastName = userProfileDto.LastName;
+                    currentStudent.UserName = userProfileDto.UserName;
+                    currentStudent.Email = userProfileDto.Email;
+                    if (_userRepository.SaveChanges())
+                    {
+                        return Ok("User " + currentStudent.FirstName + "Updated successfully");
+                    }
+                    else
+                    {
+                        return BadRequest("Error Saving changes to " + currentStudent.FirstName);
+                    }
+                }
+                throw new Exception("Error updating User");
+            }
+            throw new Exception("Error Finding User");
+
         }
     }
 }

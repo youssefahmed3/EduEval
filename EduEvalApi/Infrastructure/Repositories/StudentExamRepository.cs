@@ -59,8 +59,12 @@ public class StudentExamRepository : IStudentExamRepository
 
     public async Task<IEnumerable<StudentExams>> GetStudentExam(string studentId)
     {
-        IEnumerable<StudentExams> studentExams = await _entityFramework.StudentExams!.Include(s => s.Exam).Where(s => s.StudentId == studentId).ToListAsync();
-
+        IEnumerable<StudentExams> studentExams = await _entityFramework.StudentExams!
+                .Include(s => s.Exam)
+                    .ThenInclude(e => e.Subject)
+                .Include(s => s.Student)
+                .ToListAsync();
+        
         if (studentExams != null)
         {
             return studentExams;
@@ -93,7 +97,7 @@ public class StudentExamRepository : IStudentExamRepository
         StudentExams? studentExams = await _entityFramework.StudentExams!.Include(s => s.Exam).Where(se => se.StudentId == studentId).Where(se => se.ExamId == examId).FirstOrDefaultAsync();
 
 
-       
+
         return studentExams;
     }
 }

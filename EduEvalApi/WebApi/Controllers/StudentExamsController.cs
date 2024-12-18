@@ -21,20 +21,37 @@ namespace WebApi.Controllers
             _examRepository = examRepository;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{studentId}/history")]
-        public async Task<IActionResult> GetStudentExamHistory(string studentId)
+        [Authorize(Roles = "Student")]
+        [HttpGet("currentStudent/history")]
+        public async Task<IActionResult> GetStudentExamHistory()
         {
             var userRole = User.IsInRole("Student");
-            var currentUserId = User?.FindFirst("userId")!.ToString(); // Get user ID from JWT
+            string currentUserId = User.FindFirst("userId")!.Value;
 
             // Ensure students can only access their own history
-            if (userRole && studentId != currentUserId)
+            /* if (userRole && studentId != currentUserId)
             {
                 return Forbid();
-            }
+            } */
+            Console.WriteLine(currentUserId);
+            var examHistory = await _studentExamRepository.GetStudentExam(currentUserId);
+            return Ok(examHistory);
+        }
 
-            var examHistory = await _studentExamRepository.GetStudentExam(studentId);
+        [Authorize(Roles = "Student")]
+        [HttpGet("getAllStudentExams")]
+        public async Task<IActionResult> GetAllStudentExams()
+        {
+            /*  var userRole = User.IsInRole("Student");
+             var currentUserId = User?.FindFirst("userId")!.ToString(); // Get user ID from JWT */
+
+            // Ensure students can only access their own history
+            /* if (userRole && studentId != currentUserId)
+            {
+                return Forbid();
+            } */
+
+            var examHistory = await _studentExamRepository.GetAllStudentExams();
             return Ok(examHistory);
         }
 
@@ -116,6 +133,7 @@ namespace WebApi.Controllers
             }
             //Evaulation
 
+            // Evaulation
             int score = 0;
             foreach (var answer in answers)
             {
@@ -128,7 +146,9 @@ namespace WebApi.Controllers
                     score++;
                 }
             }
-            int percentageScore = score / answers.Count() * 100;
+
+            int percentageScore = (int)((double)score / answers.Count() * 100);
+
             // Save the result
             studentExam.Score = percentageScore;
             studentExam.SubmittedAt = DateTime.UtcNow.ToString();

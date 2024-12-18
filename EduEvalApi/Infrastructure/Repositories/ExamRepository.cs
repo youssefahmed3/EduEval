@@ -59,7 +59,7 @@ public class ExamRepository : IExamRepository
 
     public async Task<Exam> GetSingleExam(int ExamId)
     {
-        Exam? exam =  await _entityFramework.Exams!.Where(e => e.Id == ExamId).Include(e => e.ExamQuestions).ThenInclude(eq => eq.QuestionsLibrary).ThenInclude(c => c.Choices).FirstOrDefaultAsync();
+        Exam? exam =  await _entityFramework.Exams!.Where(e => e.Id == ExamId).Include(e => e.Subject).Include(e => e.ExamQuestions).ThenInclude(eq => eq.QuestionsLibrary).ThenInclude(c => c.Choices).FirstOrDefaultAsync();
 
         if (exam != null)
         {
@@ -71,18 +71,28 @@ public class ExamRepository : IExamRepository
         }
     }
 
-    public async Task<IEnumerable<Exam>> GetExamsBySubjectId(int subjectId) {
-        IEnumerable<Exam> examsWithSameSubject = await _entityFramework.Exams!.Where(e => e.SubjectId == subjectId).ToListAsync();
+    public async Task<IEnumerable<Exam>> GetExamsBySubjectId(int subjectId)
+{
+    IEnumerable<Exam> examsWithSameSubject = await _entityFramework.Exams!
+    .Where(e => e.SubjectId == subjectId)
+    .Include(e => e.Subject) // Include Subject navigation property
+    .Include(e => e.ExamQuestions)
+        .ThenInclude(eq => eq.QuestionsLibrary)
+            .ThenInclude(q => q.Choices) // Include nested Choices in QuestionsLibrary
+    .Include(e => e.StudentsExams) // Include StudentsExams navigation
+        .ThenInclude(se => se.Student) // Include Students in StudentsExams
+    .ToListAsync();
 
-         if (examsWithSameSubject != null)
-        {
-            return examsWithSameSubject;
-        }
-        else
-        {
-            throw new Exception("No Exams found in this subject.");
-        }
+    if (examsWithSameSubject != null)
+    {
+        return examsWithSameSubject;
     }
+    else
+    {
+        throw new Exception("No Exams found in this subject.");
+    }
+}
+
 
     
 }

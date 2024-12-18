@@ -1,0 +1,4 @@
+<select class="select select-bordered w-full max-w-xs bg-accent_blue text-background {{className}}" [value]="value" (change)="onSelectionChange($event)">
+  <option disabled selected class="text-gray-500" [value]="initialValue">{{selectTitle}}</option>
+  <ng-content />
+</select>

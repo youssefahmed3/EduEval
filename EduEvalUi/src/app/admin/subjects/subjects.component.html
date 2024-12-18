@@ -1,0 +1,41 @@
+<div class="w-full flex flex-col gap-5 justify-between h-full">
+  <app-header />
+  <h1 class="text-3xl font-bold">All Students</h1>
+  <div class="flex flex-wrap justify-between gap-10">
+    @for (subject of subjects; track subject.id) {
+    <div
+      class="bg-primary_navy_blue w-[300px] h-full rounded-lg text-background p-2"
+      routerLink="/admin/subjects/{{subject.id}}"
+    >
+      <h3 class="text-xl font-bold pl-5">{{subject.subjectName}}</h3>
+      <div
+        class="border-2 rounded-md h-full m-2 text-sm p-2 border-accent_blue text-justify"
+      >
+        {{subject.subjectDescription}}
+      </div>
+    </div>
+    }
+  </div>
+  <div class="join flex jus gap-2 self-center">
+    <button
+      class="join-item btn bg-accent_blue text-text border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+    >
+      1
+    </button>
+    <button
+      class="join-item btn btn-active bg-accent_blue text-text border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+    >
+      2
+    </button>
+    <button
+      class="join-item btn bg-accent_blue text-text border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+    >
+      3
+    </button>
+    <button
+      class="join-item btn bg-accent_blue text-text border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+    >
+      4
+    </button>
+  </div>
+</div>

@@ -10,6 +10,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Seeds;
 using Application.Mappers;
 using AutoMapper;
+using System.Text.Json.Serialization;
 // using Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,15 +23,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Cors Policies For Accessing The API
-builder.Services.AddCors((options) => {
-    options.AddPolicy("DevCors", (corsBuilder) => {
+builder.Services.AddCors((options) =>
+{
+    options.AddPolicy("DevCors", (corsBuilder) =>
+    {
         corsBuilder.WithOrigins("http://localhost:4200", "http://localhost:3000", "http://localhost:8000")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();
     });
 
-    options.AddPolicy("ProdCors", (corsBuilder) => {
+    options.AddPolicy("ProdCors", (corsBuilder) =>
+    {
         corsBuilder.WithOrigins("https://myProductionSite.com")
         .AllowAnyMethod()
         .AllowAnyHeader()
@@ -56,27 +60,31 @@ TokenValidationParameters tokenValidationParameters = new TokenValidationParamet
     ValidateAudience = false
 };
 
-builder.Services.AddAuthentication(option => {
+builder.Services.AddAuthentication(option =>
+{
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
 })
-.AddJwtBearer(jwt => {
+.AddJwtBearer(jwt =>
+{
     byte[] key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("AppSettings:Secret").Value ?? "");
     jwt.SaveToken = true;
-    jwt.TokenValidationParameters = new TokenValidationParameters(){
+    jwt.TokenValidationParameters = new TokenValidationParameters()
+    {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
-        
+
     };
 });
 
 // Adding The Database Connection to the service
-builder.Services.AddDbContext<DataContextEF>(options => {
+builder.Services.AddDbContext<DataContextEF>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         optionsBuilder => optionsBuilder.EnableRetryOnFailure()
     );
@@ -103,13 +111,22 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Student", policy => policy.RequireRole("Student"));
 });
 
+builder.Services.AddAutoMapper(
+    typeof(UserMappers).Assembly,
+    typeof(ExamMappers).Assembly,
+    typeof(QuestionMappers).Assembly,
+    typeof(SubjectMappers).Assembly
+);
+
 // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // builder.Services.AddAutoMapper(typeof(SubjectMappers));
 // builder.Services.AddAutoMapper(typeof(ExamMappers));
-builder.Services.AddAutoMapper(typeof(UserMappers));
+// builder.Services.AddAutoMapper(typeof(UserMappers));
 // builder.Services.AddAutoMapper(typeof(QuestionMappers));
 
-
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 var app = builder.Build();
 
 
@@ -122,6 +139,7 @@ using (var scope = app.Services.CreateScope())
     await RoleSeeder.SeedRolesAsync(serviceProvider);
     var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
 }
 
 if (app.Environment.IsDevelopment())

@@ -1,0 +1,10 @@
+<div class="flex flex-col gap-1 w-full">
+  <p class="{{textTitleColor ? textTitleColor : 'text-text'}} font-bold pl-1 ">{{inputName}}</p>
+  <input
+    [type]="type"
+    placeholder="Type here"
+    class="input input-bordered border-accent_blue border-4 bg-background w-full  focus:border-primary_navy_blue hover:border-primary_navy_blue active:border-primary_navy_blue text-text"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+  />
+</div>

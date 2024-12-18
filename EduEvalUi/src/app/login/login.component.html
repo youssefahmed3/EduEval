@@ -1,0 +1,32 @@
+<div class="flex flex-col items-center justify-center gap-5 h-screen w-full">
+  <div class="w-[200px] rounded-full overflow-hidden">
+    <img src="assets/edited_image.png" alt="" />
+  </div>
+
+  <form class="flex flex-col gap-2" (ngSubmit)="onSubmit()">
+    <app-input inputName="Email" [(ngModel)]="email" name="email" required />
+    <app-input
+      inputName="Password"
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <div class="flex flex-col gap-2">
+      <app-button buttonText="Login" type="submit" />
+      <p class="text-text font-bold">
+        Don’t Have Account ?
+        <span
+          routerLink="/register"
+          class="text-text underline font-bold cursor-pointer"
+          >Register Now</span
+        >
+      </p>
+      <div class="flex flex-row gap-2 justify-center">
+        @for(error of errors; track error) {
+        <span class="text-danger font-bold"> {{ error }} </span>
+        }
+      </div>
+    </div>
+  </form>
+</div>

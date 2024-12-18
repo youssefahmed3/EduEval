@@ -180,3 +180,4 @@ E:\programming\Internships\Atos\EduEval\EduEvalApi\WebApi\obj\Debug\net8.0\WebAp
 E:\programming\Internships\Atos\EduEval\EduEvalApi\WebApi\bin\Debug\net8.0\AutoMapper.dll
 E:\programming\Internships\Atos\EduEval\EduEvalApi\WebApi\bin\Debug\net8.0\Shared.dll
 E:\programming\Internships\Atos\EduEval\EduEvalApi\WebApi\bin\Debug\net8.0\Shared.pdb
+E:\programming\Internships\Atos\EduEval\EduEvalApi\WebApi\bin\Debug\net8.0\Newtonsoft.Json.dll
