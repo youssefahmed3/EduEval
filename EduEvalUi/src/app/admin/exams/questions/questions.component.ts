@@ -6,7 +6,7 @@ import { HeaderComponent } from "../../../shared/header/header.component";
 import { TableComponent } from "../../../shared/table/table.component";
 import { DatePipe } from '@angular/common';
 import { ButtonComponent } from "../../../shared/button/button.component";
-
+/* َCommits */
 @Component({
   selector: 'app-questions',
   imports: [HeaderComponent, TableComponent, RouterLink, DatePipe, ButtonComponent],
