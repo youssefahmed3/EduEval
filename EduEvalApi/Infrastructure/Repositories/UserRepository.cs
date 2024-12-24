@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAllStudents()
     {
-        IEnumerable<User> Students = await _entityFramework.Users!.Where(u => u.Role == "Student").Include(s => s.StudentsExams).ThenInclude(se=> se.Exam).ToListAsync();
+        IEnumerable<User> Students = await _entityFramework.Users!.Where(u => u.Role == "Student").Include(s => s.StudentsExams).ThenInclude(se => se.Exam).ToListAsync();
 
         if (Students != null)
         {
@@ -69,6 +69,23 @@ public class UserRepository : IUserRepository
         {
             throw new Exception("No admin found in the database With This Id.");
         }
+    }
+
+    public async Task<IEnumerable<User>> GetPaginatedStudents(int pageNumber, int pageSize)
+    {
+        return await
+            _entityFramework
+            .Users!
+            .Where(u => u.Role == "Student")
+            .Include(s => s.StudentsExams)
+                .ThenInclude(se => se.Exam)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+    public async Task<int> GetTotalUsersCount()
+    {
+        return await _entityFramework.Users!.Where(u => u.Role == "Student").CountAsync();
     }
 
 }

@@ -59,7 +59,7 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<Subject> GetSingleSubject(int subjectId)
     {
-        Subject? subject =  await _entityFramework.Subjects!.Include(s => s.Exams).Where(s => s.Id == subjectId).FirstOrDefaultAsync();
+        Subject? subject = await _entityFramework.Subjects!.Include(s => s.Exams).Where(s => s.Id == subjectId).FirstOrDefaultAsync();
 
         if (subject != null)
         {
@@ -69,6 +69,22 @@ public class SubjectRepository : ISubjectRepository
         {
             throw new Exception("No subject found in the database With This Id.");
         }
+    }
+
+    public async Task<IEnumerable<Subject>> GetPaginatedSubjects(int pageNumber, int pageSize)
+    {
+        return await
+            _entityFramework
+            .Subjects!
+            .Include(s => s.Exams)
+            .Include(s => s.Questions)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+    public async Task<int> GetTotalSubjectsCount()
+    {
+        return await _entityFramework.Subjects!.CountAsync();
     }
 
 }

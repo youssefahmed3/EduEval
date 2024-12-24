@@ -6,7 +6,6 @@ export interface Choice {
     isCorrect: boolean;
 }
 
-
 export interface AddChoice {
     choiceText: string;
     isCorrect: boolean;
@@ -101,10 +100,51 @@ export interface User {
 }
 
 export interface UserEdit {
-    
+
     email: string; // Assuming `IdentityUser` includes an email
     userName: string; // Assuming `IdentityUser` includes a userName
     firstName?: string;
     lastName?: string;
-    
+
+}
+
+
+export interface AllExamsPaginated {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalExams: number;
+    exams: Exam[];
+}
+
+export interface AllSubjectsPaginated {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalSubjects: number;
+    subjects: Subject[];
+}
+
+export interface AllStudentsPagintated {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalSubjects: number;
+    students: User[];
+}
+
+export interface AllExamsWithSameSubject {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalexams: number;
+    exams: Exam[];
+}
+
+export interface AllExamQuestionsPaginated {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalexams: number;
+    questions: ExamQuestions[];
 }

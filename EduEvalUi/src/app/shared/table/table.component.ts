@@ -10,18 +10,22 @@ import { User } from '../../services/responses.model';
   styleUrl: './table.component.scss'
 })
 export class TableComponent {
-// @Input({required: true}) AllStudents!: User[];
+  // @Input({required: true}) AllStudents!: User[];
+/*   @Input({required: true}) paginationNumbers!: number[];
+  @Input({required: true}) currentPage: number = 1; */
 
-// Open a specific modal programmatically
-openModal(studentId: string) {
-  const modal = document.querySelector(`#examModal_${studentId}`) as HTMLDialogElement;
-  if (modal) {
-    modal.showModal();
+  // Open a specific modal programmatically
+  openModal(studentId: string) {
+    const modal = document.querySelector(`#examModal_${studentId}`) as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
   }
-}
 
-// Close modal (optional for the ✕ button)
-closeModal(modal: HTMLDialogElement) {
-  modal.close();
-}
+  // Close modal (optional for the ✕ button)
+  closeModal(modal: HTMLDialogElement) {
+    modal.close();
+  }
+
+
 }

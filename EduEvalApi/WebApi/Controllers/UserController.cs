@@ -135,5 +135,50 @@ namespace WebApi.Controllers
             throw new Exception("Error Finding User");
 
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("User/PaginatedStudents")]
+        public async Task<ActionResult> GetPaginatedExams(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            // Get the total count of exams from the repository or database
+            int totalStudents = await _userRepository.GetTotalUsersCount();
+
+            // Calculate the total pages
+            int totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
+
+            // Ensure the requested page number is within valid bounds
+            if (pageNumber > totalPages && totalPages > 0)
+            {
+                return BadRequest("Page number exceeds the total pages.");
+            }
+
+            // Get paginated exams for the current page
+            IEnumerable<User> students = await _userRepository.GetPaginatedStudents(pageNumber, pageSize);
+
+            // Build the response with pagination metadata
+            var response = new
+            {
+                currentPage = pageNumber,
+                totalPages = totalPages,
+                pageSize = pageSize,
+                totalStudents = totalStudents,
+                students = students
+            };
+
+            // Return response
+            if (students.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("No students found for the given page.");
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 <!-- Header -->
-<div class="flex justify-between items-center">
+<div class="flex flex-wrap justify-between items-center">
   <div>
     <h1 class="text-xl font-bold">Hello, {{ currentUserData?.fullName }}</h1>
     <p>Its {{currentDate | date: 'EEEE d MMMM y'}}</p>
@@ -8,7 +8,7 @@
     <div class="flex gap-3">
       <!-- Header -->
   
-      <div class="flex gap-3">
+      <div class="flex gap-3 flex-wrap">
         <app-button
           buttonText="Add A New Question"
           routerLink="/admin/dashboard/add-new-question"

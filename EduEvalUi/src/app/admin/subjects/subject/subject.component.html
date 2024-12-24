@@ -11,7 +11,7 @@
             <h1 class="text-3xl font-bold">All Exams Associated With {{subject?.subjectName}}</h1>
 
         </div>
-      <app-table >
+      <app-table>
         <thead class="font-bold text-background">
           <tr class="bg-accent_blue">
             <th></th>
@@ -49,6 +49,16 @@
         </tr>
         }
       </app-table>
+      <div class="join flex jus gap-2 self-center">
+        @for(pageNumber of paginationNumbers; track pageNumber) {
+          <button
+            class="{{currentPage == pageNumber ? 'bg-primary_navy_blue text-background' : 'text-text'}} join-item btn bg-accent_blue  border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+            (click)="onPageClick(pageNumber)"
+          >
+            {{ pageNumber }}
+          </button>
+          }
+      </div>
       
       <!-- Attended Students Modal -->
       <dialog #attendedStudentsModal class="modal text-background">

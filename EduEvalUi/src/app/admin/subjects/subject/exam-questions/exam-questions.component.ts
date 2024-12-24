@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { HeaderComponent } from "../../../../shared/header/header.component";
 import { TableComponent } from "../../../../shared/table/table.component";
 import { DatePipe } from '@angular/common';
-import { Choice, Exam, ExamQuestions, QuestionLibrary, Subject } from '../../../../services/responses.model';
+import { AllExamQuestionsPaginated, AllExamsWithSameSubject, Choice, Exam, ExamQuestions, QuestionLibrary, Subject } from '../../../../services/responses.model';
 import { ApiService } from '../../../../services/api.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -18,6 +18,8 @@ export class ExamQuestionsComponent {
   Questions!: ExamQuestions[];
   examSubject: Subject | null = null;
   choices: Choice[] = [];
+  currentPage: number = 1;
+  paginationNumbers: number[] = [];
   @ViewChild('ChoicesModal') ChoicesModal!: ElementRef<HTMLDialogElement>;
   apiService: ApiService = inject(ApiService)
   constructor(private route: ActivatedRoute, private router: Router) { }
@@ -32,9 +34,7 @@ export class ExamQuestionsComponent {
       this.subjectId = params.get('subjectId');
     });
 
-    
-
-    this.apiService.getExamQuestions(this.examId!).subscribe({
+    /* this.apiService.getExamQuestions(this.examId!).subscribe({
       next: (response) => {
         this.Questions = response;
         console.log("Questions: ");
@@ -44,12 +44,16 @@ export class ExamQuestionsComponent {
         console.error('Fetch Failed:', error);
 
       }
-    })
+    }) */
 
+    this.loadExamQuestions(this.currentPage);
+  }
+  
+  loadExamQuestions(pageNumber: number): void {
     this.apiService.getSubjectById(this.subjectId!).subscribe({
       next: (response) => {
         this.examSubject = response;
-        console.log("examSubject: ");
+        console.log("Subject: ");
         console.log(response);
       },
       error: (error) => {
@@ -58,9 +62,21 @@ export class ExamQuestionsComponent {
       }
     })
 
+    this.apiService.getPaginatiedExamQuestions(pageNumber, 5, this.examId!).subscribe({
+      next: (response: AllExamQuestionsPaginated) => {
+        this.Questions = response.questions;
+        this.currentPage = response.currentPage;
+        this.paginationNumbers = Array.from({ length: response.totalPages }, (_, i) => i + 1);
+        console.log("exams: ");
+        console.log(response);
+      },
+      error: (error) => {
+        console.error('Fetch Failed:', error);
 
+      }
+    })
   }
-  
+
   openModalChoices(choices: any): void {
     this.choices = choices;
     if (this.ChoicesModal?.nativeElement) {
@@ -77,5 +93,9 @@ export class ExamQuestionsComponent {
 
   navigateBack(): void {
     this.router.navigate(['/dashboard']); // Navigate to the '/dashboard' route
+  }
+
+  onPageClick(pageNumber: number): void {
+    this.loadExamQuestions(pageNumber);  // Fetch the data for the selected page
   }
 }

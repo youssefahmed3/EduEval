@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HeaderComponent } from "../../../shared/header/header.component";
 import { TableComponent } from "../../../shared/table/table.component";
-import { Exam, QuestionLibrary, StudentExams, Subject, User } from '../../../services/responses.model';
+import { AllExamsWithSameSubject, Exam, QuestionLibrary, StudentExams, Subject, User } from '../../../services/responses.model';
 import { ApiService } from '../../../services/api.service';
 import { DatePipe } from '@angular/common';
 
@@ -16,6 +16,8 @@ export class SubjectComponent {
   subjectId: string | null = null;
   subject: Subject | null = null;
   exams?: Exam[];
+  currentPage: number = 1;
+  paginationNumbers: number[] = [];
   apiService: ApiService = inject(ApiService)
   // Reference for the Modal Dialog
   @ViewChild('questionsModal') questionsModal!: ElementRef<HTMLDialogElement>;
@@ -24,7 +26,7 @@ export class SubjectComponent {
   // Selected Student for Modal Content
   SelectedExamQuestions?: QuestionLibrary[];
   attendedStudents?: StudentExams[];
-  
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -36,6 +38,10 @@ export class SubjectComponent {
       this.subjectId = params.get('subjectId');
     });
 
+    this.loadExamsBySubjectId(this.currentPage);
+  }
+
+  loadExamsBySubjectId(pageNumber: number): void {
     this.apiService.getSubjectById(this.subjectId!).subscribe({
       next: (response) => {
         this.subject = response;
@@ -48,9 +54,11 @@ export class SubjectComponent {
       }
     })
 
-    this.apiService.getAllExamsWithSubjectId(this.subjectId!).subscribe({
-      next: (response) => {
-        this.exams = response;
+    this.apiService.getPaginatiedExamsWithSubjectId(pageNumber, 5, this.subjectId!).subscribe({
+      next: (response: AllExamsWithSameSubject) => {
+        this.exams = response.exams;
+        this.currentPage = response.currentPage;
+        this.paginationNumbers = Array.from({ length: response.totalPages }, (_, i) => i + 1);
         console.log("exams: ");
         console.log(response);
       },
@@ -59,8 +67,6 @@ export class SubjectComponent {
 
       }
     })
-
-
   }
 
 
@@ -91,5 +97,12 @@ export class SubjectComponent {
     if (this.attendedStudentsModal?.nativeElement) {
       this.attendedStudentsModal.nativeElement.close();
     }
+  }
+
+
+
+
+  onPageClick(pageNumber: number): void {
+    this.loadExamsBySubjectId(pageNumber);  // Fetch the data for the selected page
   }
 }

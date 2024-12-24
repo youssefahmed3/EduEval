@@ -48,6 +48,16 @@
       }
     </app-table>
 
+    <div class="join flex jus gap-2 self-center">
+      @for(pageNumber of paginationNumbers; track pageNumber) {
+        <button
+          class="{{currentPage == pageNumber ? 'bg-primary_navy_blue text-background' : 'text-text'}} join-item btn bg-accent_blue  border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+          (click)="onPageClick(pageNumber)"
+        >
+          {{ pageNumber }}
+        </button>
+        }
+    </div>
     <!-- Attended Students Modal -->
      <dialog #ChoicesModal class="modal text-background">
         <div class="modal-box bg-accent_blue">

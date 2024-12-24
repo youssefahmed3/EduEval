@@ -17,7 +17,7 @@ namespace WebApi.Controllers
     {
         private readonly ISubjectRepository _subjectRepository;
         private readonly IMapper _mapper;
-        public SubjectController(IMapper mapper ,ISubjectRepository subjectRepository)
+        public SubjectController(IMapper mapper, ISubjectRepository subjectRepository)
         {
             _subjectRepository = subjectRepository;
             _mapper = mapper;
@@ -74,13 +74,16 @@ namespace WebApi.Controllers
         public async Task<ActionResult> UpdateSubject(UpdateSubjectDto subjectDto)
         {
             Subject subjectDb = await _subjectRepository.GetSingleSubject(subjectDto.Id);
-            if (subjectDb != null) {
+            if (subjectDb != null)
+            {
                 subjectDb.SubjectName = subjectDto.SubjectName;
                 subjectDb.SubjectDescription = subjectDto.SubjectDescription;
-                if(_subjectRepository.SaveChanges()) {
+                if (_subjectRepository.SaveChanges())
+                {
                     return Ok("Subject " + subjectDto.SubjectName + "Updated successfully");
                 }
-                else {
+                else
+                {
                     return BadRequest("Error Saving changes to " + subjectDto.SubjectName);
                 }
             }
@@ -93,12 +96,15 @@ namespace WebApi.Controllers
         public async Task<ActionResult> DeleteSubjectById(int subjectId)
         {
             Subject? subjectDb = await _subjectRepository.GetSingleSubject(subjectId);
-            if (subjectDb != null) {
+            if (subjectDb != null)
+            {
                 _subjectRepository.RemoveEntity<Subject>(subjectDb);
-                if(_subjectRepository.SaveChanges()) {
+                if (_subjectRepository.SaveChanges())
+                {
                     return Ok("Subject with id " + subjectId + " deleted successfully");
                 }
-                else {
+                else
+                {
                     return BadRequest("Error deleting Subject with id " + subjectId);
                 }
             }
@@ -106,6 +112,54 @@ namespace WebApi.Controllers
 
         }
 
+
+    [Authorize]
+        [HttpGet("Subject/PaginatedSubjects")]
+        public async Task<ActionResult> GetPaginatedSubjects(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            // Get the total count of exams from the repository or database
+            int totalSubjects = await _subjectRepository.GetTotalSubjectsCount();
+
+            // Calculate the total pages
+            int totalPages = (int)Math.Ceiling((double)totalSubjects/ pageSize);
+
+            // Ensure the requested page number is within valid bounds
+            if (pageNumber > totalPages && totalPages > 0)
+            {
+                return BadRequest("Page number exceeds the total pages.");
+            }
+
+            // Get paginated exams for the current page
+            IEnumerable<Subject> subjects = await _subjectRepository.GetPaginatedSubjects(pageNumber, pageSize);
+
+            // Build the response with pagination metadata
+            var response = new
+            {
+                currentPage = pageNumber,
+                totalPages = totalPages,
+                pageSize = pageSize,
+                totalSubjects = totalSubjects,
+                subjects = subjects
+            };
+
+            // Return response
+            if (subjects.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("No subjects found for the given page.");
+            }
+        }
+
+    
+    
 
     }
 }

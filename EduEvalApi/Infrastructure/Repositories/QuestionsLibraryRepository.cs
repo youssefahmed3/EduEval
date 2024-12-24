@@ -93,6 +93,16 @@ public class QuestionsLibraryRepository : IQuestionsRepository
         }
 
     }
+
+    /* public async Task<IEnumerable<QuestionLibrary>> GetPaginatedQuestions(int pageNumber, int pageSize)
+    {
+        return await _entityFramework.QuestionsLibrary!
+            .Include(s => s.Subject)
+            .Include(s => s.Choices)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    } */
 }
 
 

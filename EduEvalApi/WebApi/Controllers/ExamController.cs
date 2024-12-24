@@ -208,5 +208,143 @@ namespace WebApi.Controllers
             }
 
         }
+
+
+        [Authorize]
+        [HttpGet("Exam/PaginatedExams")]
+        public async Task<ActionResult> GetPaginatedExams(int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            // Get the total count of exams from the repository or database
+            int totalExams = await _examRepository.GetTotalExamsCount();
+
+            // Calculate the total pages
+            int totalPages = (int)Math.Ceiling((double)totalExams / pageSize);
+
+            // Ensure the requested page number is within valid bounds
+            if (pageNumber > totalPages && totalPages > 0)
+            {
+                return BadRequest("Page number exceeds the total pages.");
+            }
+
+            // Get paginated exams for the current page
+            IEnumerable<Exam> exams = await _examRepository.GetPaginatedExams(pageNumber, pageSize);
+
+            // Build the response with pagination metadata
+            var response = new
+            {
+                currentPage = pageNumber,
+                totalPages = totalPages,
+                pageSize = pageSize,
+                totalExams = totalExams,
+                exams = exams
+            };
+
+            // Return response
+            if (exams.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("No exams found for the given page.");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetPaginatedExamsBySubjectId/{subjectId}")]
+        public async Task<ActionResult<IEnumerable<Exam>>> GetPaginatedExamsBySubjectId(int subjectId, int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            // Get the total count of exams from the repository or database
+            int totalExamsWithSameSubject = await _examRepository.GetTotalExamsWithSameSubjectCount(subjectId);
+
+            // Calculate the total pages
+            int totalPages = (int)Math.Ceiling((double)totalExamsWithSameSubject / pageSize);
+
+            // Ensure the requested page number is within valid bounds
+            if (pageNumber > totalPages && totalPages > 0)
+            {
+                return BadRequest("Page number exceeds the total pages.");
+            }
+
+            // Get paginated exams for the current page
+            IEnumerable<Exam> examsWithSameSubject = await _examRepository.GetPaginatedExamsBySubjectId(pageNumber, pageSize, subjectId);
+
+            // Build the response with pagination metadata
+            var response = new
+            {
+                currentPage = pageNumber,
+                totalPages = totalPages,
+                pageSize = pageSize,
+                totalExams = totalExamsWithSameSubject,
+                exams = examsWithSameSubject
+            };
+
+            // Return response
+            if (examsWithSameSubject.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("No exams found With the same subject for the given page.");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetPaginatedExamQuestions/{examId}")]
+        public async Task<ActionResult<IEnumerable<ExamQuestions>>> GetPaginatedExamQuestions(int examId, int pageNumber = 1, int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            // Get the total count of exams from the repository or database
+            int totalQuestionInExam = await _examRepository.GetTotalQuestionsInExamCount(examId);
+
+            // Calculate the total pages
+            int totalPages = (int)Math.Ceiling((double)totalQuestionInExam / pageSize);
+
+            // Ensure the requested page number is within valid bounds
+            if (pageNumber > totalPages && totalPages > 0)
+            {
+                return BadRequest("Page number exceeds the total pages.");
+            }
+
+            // Get paginated exams for the current page
+            IEnumerable<ExamQuestions> ExamQuestions = await _examRepository.GetPaginatedExamQuestions(pageNumber, pageSize, examId);
+
+            // Build the response with pagination metadata
+            var response = new
+            {
+                currentPage = pageNumber,
+                totalPages = totalPages,
+                pageSize = pageSize,
+                totalQuestions = totalQuestionInExam,
+                Questions = ExamQuestions
+            };
+
+            // Return response
+            if (ExamQuestions.Any())
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("No exams found With the same subject for the given page.");
+            }
+        }
+
+
     }
 }

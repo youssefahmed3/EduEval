@@ -25,7 +25,6 @@ export class ExamComponent implements OnInit {
 
   ngOnInit(): void {
     this.examId = this.route.snapshot.paramMap.get('examId');
-    this.checkIfExamSubmitted();
 
     // Call EnterExam first to start the exam session
     this.apiService.EnterExam(this.examId!).subscribe({
@@ -62,9 +61,6 @@ export class ExamComponent implements OnInit {
     this.fetchExamDetails();
   }
 
-  checkIfExamSubmitted() {
-
-  }
 
   fetchExamDetails() {
     this.apiService.getExamById(this.examId!).subscribe({
