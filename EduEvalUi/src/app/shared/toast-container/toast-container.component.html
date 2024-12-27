@@ -1,0 +1,5 @@
+<div class="toast toast-end">
+  @for(toast of toasts; track toast.message) {
+  <app-toast [message]="toast.message" [type]="toast.type"></app-toast>
+  }
+</div>

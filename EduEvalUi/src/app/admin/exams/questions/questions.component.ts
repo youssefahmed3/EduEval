@@ -40,31 +40,35 @@ export class QuestionsComponent {
   }
   
   loadExamQuestions(pageNumber: number): void {
-    this.apiService.getSubjectById(this.subjectId!).subscribe({
-      next: (response) => {
-        this.examSubject = response;
-        console.log("Subject: ");
-        console.log(response);
-      },
-      error: (error) => {
-        console.error('Fetch Failed:', error);
-
-      }
-    })
-
+    
     this.apiService.getPaginatiedExamQuestions(pageNumber, 5, this.examId!).subscribe({
       next: (response: AllExamQuestionsPaginated) => {
         this.Questions = response.questions;
         this.currentPage = response.currentPage;
         this.paginationNumbers = Array.from({ length: response.totalPages }, (_, i) => i + 1);
+        this.subjectId = response.questions[0].questionsLibrary.subjectId.toString();
         console.log("exams: ");
         console.log(response);
+
+        this.apiService.getSubjectById(this.subjectId!).subscribe({
+          next: (response) => {
+            this.examSubject = response;
+            console.log("Subject: ");
+            console.log(response);
+          },
+          error: (error) => {
+            console.error('Fetch Failed:', error);
+    
+          }
+        })
       },
       error: (error) => {
         console.error('Fetch Failed:', error);
 
       }
     })
+
+    
   }
   onPageClick(pageNumber: number): void {
     this.loadExamQuestions(pageNumber);  // Fetch the data for the selected page

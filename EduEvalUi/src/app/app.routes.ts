@@ -21,6 +21,7 @@ import { ExamQuestionsComponent } from './admin/subjects/subject/exam-questions/
 import { QuestionsComponent } from './admin/exams/questions/questions.component';
 import { AddQuestionToExamComponent } from './admin/exams/add-question-to-exam/add-question-to-exam.component';
 import { ExamComponent } from './student/exam/exam.component';
+import { NotificationComponent } from './admin/notification/notification.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,7 @@ export const routes: Routes = [
             { path: 'exams', component: ExamsComponent },
             { path: 'exams/:examId/questions', component: QuestionsComponent },
             { path: 'exams/:examId/questions/AddQuestion', component: AddQuestionToExamComponent },
+            { path: 'notifications', component: NotificationComponent },
 
             { path: 'profile', component: ProfileComponent },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
+              "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+                "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
               },
               "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj": {
                 "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj"
@@ -79,14 +79,14 @@
         }
       }
     },
-    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+    "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectUniqueName": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\youss\\.nuget\\packages\\",
-        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
+        "outputPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\youss\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -172,8 +172,8 @@
               "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj": {
                 "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Application\\Application.csproj"
               },
-              "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
+              "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+                "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
               }
             }
           }
@@ -200,6 +200,10 @@
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -312,8 +316,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
+              "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+                "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
               },
               "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Infrastructure\\Infrastructure.csproj": {
                 "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Infrastructure\\Infrastructure.csproj"
@@ -347,6 +351,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.10, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",

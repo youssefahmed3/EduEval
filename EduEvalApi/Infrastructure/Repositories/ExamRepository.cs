@@ -116,7 +116,7 @@ public class ExamRepository : IExamRepository
             .Include(s => s.ExamQuestions)
                 .ThenInclude(eq => eq.QuestionsLibrary)
                 .ThenInclude(c => c.Choices)
-            .Include(s => s.StudentsExams)
+            .Include(s => s.StudentsExams)  
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

@@ -903,8 +903,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
-              "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
+            "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+              "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj"
             },
             "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj": {
               "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Shared\\Shared.csproj"

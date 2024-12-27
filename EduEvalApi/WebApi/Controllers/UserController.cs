@@ -63,7 +63,7 @@ namespace WebApi.Controllers
         {
             string currentUserId = User.FindFirst("userId")!.Value;
             string? currentRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            Console.WriteLine("asddddddddd" + currentRole);
+            Console.WriteLine(currentRole);
             if (currentUserId == null)
             {
                 return Forbid();
@@ -74,7 +74,6 @@ namespace WebApi.Controllers
                 User admin = await _userRepository.GetSingleAdmin(currentUserId);
                 UserProfileDto adminAfterMapping = _mapper.Map<UserProfileDto>(admin);
                 return Ok(adminAfterMapping);
-
             }
 
 

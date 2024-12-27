@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { UserEdit } from '../../services/responses.model';
+import { User, UserEdit } from '../../services/responses.model';
 import { InputComponent } from "../../shared/input/input.component";
 import { HeaderComponent } from "../../shared/header/header.component";
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-student-profile',
@@ -19,20 +20,20 @@ export class StudentProfileComponent {
   error?: string;
   success?: string;
   apiService: ApiService = inject(ApiService)
+  userService: UserService = inject(UserService)
   ngOnInit(): void {
-    this.apiService.getCurrentUserData().subscribe({
-      next: (userData) => {
-        console.log('User data:', userData);
+    this.userService.fetchCurrentUserData();
 
-        this.firstName = userData.firstName
-        this.lastName = userData.lastName
-        this.email = userData.email
-        this.username = userData.userName
-      },
-      error: (error) => {
-        console.error('Error fetching user data:', error)
+    // Subscribe to the user data
+    this.userService.currentUserData$.subscribe((data: User) => {
+      if (data) {
+        this.firstName = data.firstName!;
+        this.lastName = data.lastName!;
+        this.email = data.email;
+        this.username = data.userName;
+        console.log('Current User Data:', data);
       }
-    })
+    });
 
   }
 

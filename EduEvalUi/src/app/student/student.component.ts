@@ -3,6 +3,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { User } from '../services/responses.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-student',
@@ -13,18 +14,17 @@ import { User } from '../services/responses.model';
 export class StudentComponent {
   apiService: ApiService = inject(ApiService);
   currentUserData?: User;
-  ngOnInit(): void {
-    this.apiService.getCurrentUserData().subscribe(
-      {
-        next: (response) => {
-          this.currentUserData = response;
-          console.log(response);
-        },
 
-        error: (error) => {
-          console.error('Fetch Failed:', error);
-        }
+  userService: UserService = inject(UserService);
+  ngOnInit(): void {
+    this.userService.fetchCurrentUserData();
+
+    // Subscribe to the user data
+    this.userService.currentUserData$.subscribe((data) => {
+      if (data) {
+        this.currentUserData = data;
+        console.log('Current User Data:', data);
       }
-    );
+    });
   }
 }
