@@ -64,7 +64,7 @@ public class StudentExamRepository : IStudentExamRepository
                     .ThenInclude(e => e.Subject)
                 .Include(s => s.Student)
                 .ToListAsync();
-        
+
         if (studentExams != null)
         {
             return studentExams;
@@ -79,6 +79,7 @@ public class StudentExamRepository : IStudentExamRepository
         IEnumerable<StudentExams> allStudentsInExam = await _entityFramework.StudentExams!
                 .Where(se => se.ExamId == examId)
                 .Include(se => se.Student)
+
                 .Include(se => se.Exam)
                 .ToListAsync();
 
@@ -94,7 +95,7 @@ public class StudentExamRepository : IStudentExamRepository
 
     public async Task<StudentExams> GetStudentByTakenExam(string studentId, int examId)
     {
-        StudentExams? studentExams = await _entityFramework.StudentExams!.Include(s => s.Exam).Where(se => se.StudentId == studentId).Where(se => se.ExamId == examId).FirstOrDefaultAsync();
+        StudentExams? studentExams = await _entityFramework.StudentExams!.Include(s => s.Exam).Where(se => se.StudentId == studentId).Include(se => se.Student).Where(se => se.ExamId == examId).FirstOrDefaultAsync();
 
 
 

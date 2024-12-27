@@ -7,11 +7,7 @@
     </label>
   </div>
   <div class="drawer-side">
-    <label
-      for="my-drawer-2"
-      aria-label="close sidebar"
-      class="drawer-  "
-    ></label>
+    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-"></label>
     <ul
       class="menu text-base-content min-h-full w-80 p-4 bg-primary_navy_blue rounded-r-lg justify-between"
     >
@@ -61,6 +57,13 @@
         class="flex justify-between items-center bg-secondary_gold text-text p-3 rounded-lg font-bold"
       >
         {{ userData?.fullName }}
+
+        <div
+          class="btn cursor-pointer select-none flex bg-background rounded-md pr-2 pl-2 hover:bg-background"
+          routerLink="/admin/notifications"
+        >
+        <img src="assets/notificiation.svg" class="w-[30px] h-[30px]" />
+        </div>
         <div
           class="btn cursor-pointer select-none flex bg-background rounded-md p-0 hover:bg-background"
           (click)="logout()"

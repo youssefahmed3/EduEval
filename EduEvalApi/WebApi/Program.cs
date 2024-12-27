@@ -11,6 +11,8 @@ using Infrastructure.Seeds;
 using Application.Mappers;
 using AutoMapper;
 using System.Text.Json.Serialization;
+using Infrastructure.SignalRHubs;
+using System.Security.Claims;
 // using Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +46,7 @@ builder.Services.AddCors((options) =>
 
 builder.Services.AddControllers();
 
-
+builder.Services.AddSignalR();
 // Token Validation Process  
 string? tokenKeyString = builder.Configuration.GetSection("AppSettings:Secret").Value;
 
@@ -57,7 +59,8 @@ TokenValidationParameters tokenValidationParameters = new TokenValidationParamet
     IssuerSigningKey = tokenyKey,
     ValidateIssuer = false,
     ValidateIssuerSigningKey = true,
-    ValidateAudience = false
+    ValidateAudience = false,
+    RoleClaimType = ClaimTypes.Role
 };
 
 builder.Services.AddAuthentication(option =>
@@ -80,6 +83,39 @@ builder.Services.AddAuthentication(option =>
         ValidateLifetime = true,
 
     };
+   jwt.Events = new JwtBearerEvents
+{
+    OnMessageReceived = context =>
+    {
+        var accessToken = context.Request.Query["access_token"];
+        var path = context.HttpContext.Request.Path;
+
+        Console.WriteLine($"Access Token: {accessToken}");
+        Console.WriteLine($"Request Path: {path}");
+
+        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notificationHub"))
+        {
+            context.Token = accessToken;
+        }
+        else if (context.Request.Headers.ContainsKey("Authorization"))
+        {
+            context.Token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        }
+        else
+        {
+            Console.WriteLine("No token found in query string or Authorization header.");
+        }
+
+        return Task.CompletedTask;
+    },
+    OnAuthenticationFailed = context =>
+    {
+        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+        return Task.CompletedTask;
+    }
+};
+
+
 });
 
 // Adding The Database Connection to the service
@@ -118,6 +154,8 @@ builder.Services.AddAutoMapper(
     typeof(SubjectMappers).Assembly
 );
 
+
+
 // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // builder.Services.AddAutoMapper(typeof(SubjectMappers));
 // builder.Services.AddAutoMapper(typeof(ExamMappers));
@@ -155,8 +193,11 @@ else
 }
 
 
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<NotificationHub>("/notificationHub"); // Protect the SignalR hub
 
 
 app.MapControllers();

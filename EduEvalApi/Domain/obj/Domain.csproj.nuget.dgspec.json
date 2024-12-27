@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {}
+    "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
+    "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectUniqueName": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
+        "projectPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\youss\\.nuget\\packages\\",
-        "outputPath": "E:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
+        "outputPath": "e:\\programming\\Internships\\Atos\\EduEval\\EduEvalApi\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\youss\\AppData\\Roaming\\NuGet\\NuGet.Config"

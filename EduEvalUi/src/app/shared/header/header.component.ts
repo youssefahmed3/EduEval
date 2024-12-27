@@ -6,6 +6,8 @@ import { SelectComponent } from "../select/select.component";
 import { ApiService } from '../../services/api.service';
 import { CreateExam, Subject, User } from '../../services/responses.model';
 import { DatePipe } from '@angular/common';
+import { UserService } from '../../services/user.service';
+import { ToastService } from '../../services/toast.service';
 
 
 @Component({
@@ -26,9 +28,10 @@ export class HeaderComponent {
 
   selectedSubjectId?: number = 0;
   apiService: ApiService = inject(ApiService);
-
+  userService: UserService = inject(UserService);
   errorSubjectForm?: string;
   errorExamForm?: string;
+  toastService: ToastService = inject(ToastService);
 
   ngOnInit(): void {
     this.apiService.getAllSubjects().subscribe(
@@ -42,17 +45,15 @@ export class HeaderComponent {
         }
       }
     )
-    this.apiService.getCurrentUserData().subscribe(
-      {
-        next: (response) => {
-          this.currentUserData = response;
-          console.log(response);
-        },
-        error: (error) => {
-          console.error('Fetch Failed:', error);
-        }
+    this.userService.fetchCurrentUserData();
+
+    // Subscribe to the user data
+    this.userService.currentUserData$.subscribe((data) => {
+      if (data) {
+        this.currentUserData = data;
+        console.log('Current User Data:', data);
       }
-    );
+    });
   }
   onSubmitSubject() {
     if (this.isValidFormSubjectCreation()) {
@@ -120,7 +121,7 @@ export class HeaderComponent {
       console.log(this.errorExamForm);
 
     }
-
+    this.toastService.showToast(`Exam ${this.ExamTitle} Created Successfully`, 'info');
   }
   isValidFormExamCreation(): boolean {
     // Check if the question, difficulty, and subject are selected

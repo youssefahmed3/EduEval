@@ -2,13 +2,13 @@ import { Component, inject, Input, NgModule, OnInit } from '@angular/core';
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { ButtonComponent } from "../shared/button/button.component";
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { User } from '../services/responses.model';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SidebarMenuComponent, ButtonComponent,],
+  imports: [SidebarMenuComponent, ButtonComponent, RouterLink],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

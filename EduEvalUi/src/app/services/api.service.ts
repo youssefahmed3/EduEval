@@ -104,22 +104,6 @@ export class ApiService {
         return response;
     }
 
-    getAllExamsWithSubjectId(subjectId: string): Observable<any> {
-        const headers = new HttpHeaders({
-            Authorization: `Bearer ${this.authService.getToken()}`,
-        });
-        var response = this.http.get(`${this.apiUrl}/Exam/GetExamsBySubjectId/${subjectId}`, { headers })
-        return response;
-    }
-
-    getExamQuestions(examId: string): Observable<any> {
-        const headers = new HttpHeaders({
-            Authorization: `Bearer ${this.authService.getToken()}`,
-        });
-        var response = this.http.get(`${this.apiUrl}/Exam/GetExamQuestions/${examId}`, { headers })
-        return response;
-    }
-
     getAllQuestionsBySubjectId(subjectId: number): Observable<any> {
 
         const headers = new HttpHeaders({
@@ -128,8 +112,6 @@ export class ApiService {
         var response = this.http.get(`${this.apiUrl}/Questions/GetQuestionsBySubjectId/${subjectId}`, { headers })
         return response;
     }
-
-
 
     addQuestionToExam(examId: string, questionId: number): Observable<any> {
         const headers = new HttpHeaders({

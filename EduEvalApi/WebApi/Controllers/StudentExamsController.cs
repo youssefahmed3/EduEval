@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
+using Infrastructure.SignalRHubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WebApi.Controllers
 {
@@ -14,11 +16,14 @@ namespace WebApi.Controllers
     public class StudentExamsController : ControllerBase
     {
         private readonly IStudentExamRepository _studentExamRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IExamRepository _examRepository;
-        public StudentExamsController(IStudentExamRepository studentExamRepository, IExamRepository examRepository)
+        public StudentExamsController(IHubContext<NotificationHub> hubContext, IStudentExamRepository studentExamRepository, IExamRepository examRepository)
         {
             _studentExamRepository = studentExamRepository;
             _examRepository = examRepository;
+            _hubContext = hubContext;
         }
 
         [Authorize(Roles = "Student")]
@@ -104,12 +109,13 @@ namespace WebApi.Controllers
         [HttpPost("SubmitExam/{examId}")]
         public async Task<IActionResult> SubmitExam(int examId, List<SubmitAnswerDto> answers)
         {
-            var currentUserId = User.FindFirst("userId")!.Value;
-
-            if (currentUserId == null)
+            // Get current user ID
+            var userIdClaim = User.FindFirst("userId");
+            if (userIdClaim == null)
             {
                 return Forbid();
             }
+            var currentUserId = userIdClaim.Value;
 
             // Check if the student has entered the exam
             var studentExam = await _studentExamRepository.GetStudentByTakenExam(currentUserId, examId);
@@ -118,22 +124,26 @@ namespace WebApi.Controllers
                 return BadRequest("You must enter the exam before submitting.");
             }
 
-            // Ensure the student has not already submitted an exam
+            // Ensure the student has not already submitted the exam
             if (studentExam.SubmittedAt != null)
             {
-                return BadRequest("You Already Finished And Submitted The Exam!");
-
+                return BadRequest("You already finished and submitted the exam!");
             }
 
-            // Fetch the exam and evaluate the answers
+            // Fetch the exam
             var exam = await _examRepository.GetSingleExam(examId);
             if (exam == null)
             {
                 return NotFound("Exam not found.");
             }
-            //Evaulation
 
-            // Evaulation
+            // Handle empty answers
+            if (answers == null || answers.Count == 0)
+            {
+                return BadRequest("No answers submitted.");
+            }
+
+            // Evaluate the answers
             int score = 0;
             foreach (var answer in answers)
             {
@@ -147,14 +157,35 @@ namespace WebApi.Controllers
                 }
             }
 
-            int percentageScore = (int)((double)score / answers.Count() * 100);
+            int percentageScore = (int)((double)score / answers.Count * 100);
 
             // Save the result
             studentExam.Score = percentageScore;
             studentExam.SubmittedAt = DateTime.UtcNow.ToString();
-            _studentExamRepository.SaveChanges();
+
+            try
+            {
+                _studentExamRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while saving the result: {ex.Message}");
+            }
+
+            // Log details
+            Console.WriteLine($"Exam: {studentExam.Exam?.ExamTitle ?? "null"}");
+            Console.WriteLine($"Student: {studentExam.Student?.FullName ?? "null"}");
+            Console.WriteLine($"Score: {studentExam.Score}");
+
+            // Send notification
+            await _hubContext.Clients.All.SendAsync("ExamSubmittedByStudent", new
+            {
+                Message = $"{studentExam.Student?.FullName ?? "Unknown Student"} submitted the exam '{studentExam.Exam?.ExamTitle ?? "Unknown Exam"}' with a score of {percentageScore}%.",
+                Status = "success"
+            });
 
             return Ok(new { Score = score, TotalQuestions = exam.ExamQuestions.Count });
         }
+
     }
 }
