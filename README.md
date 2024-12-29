@@ -30,6 +30,8 @@ EduEval is a dynamic and comprehensive Exam System designed to facilitate seamle
 - **Exam Management**: Admin can:
   - Create or delete exams.
   - Tie exams to specific subjects.
+- **Role-Based Access Control**:
+  - Secure system with roles assigned to users (e.g., Admin, Student).
 
 ### Student Features:
 
@@ -37,6 +39,16 @@ EduEval is a dynamic and comprehensive Exam System designed to facilitate seamle
   - Enter and submit exams.
 - **Exam History**:
   - View previously taken exams and results.
+
+### Notifications:
+
+- **Real-Time Notifications**:
+  - Admin and students receive instant updates using SignalR for events like exam creation, updates, and submissions.
+
+### Integration:
+
+- **Seamless System Integration**:
+  - Integrated backend and frontend workflows for a unified user experience.
 
 ---
 
@@ -54,6 +66,7 @@ EduEval is a dynamic and comprehensive Exam System designed to facilitate seamle
 - **Identity Framework**: Authentication and authorization.
 - **Entity Framework**: Object-relational mapping (ORM) for database management.
 - **SQL**: Relational database for storing system data.
+- **SignalR**: Real-time communication library for notifications.
 
 ---
 
@@ -85,6 +98,10 @@ EduEval is a Question-Based Exam System. Here are the core relationships and wor
   - Composed of selected questions from the question pool.
 - **Exam History**:
   - Stores records of exams taken by students.
+- **Notifications**:
+  - Real-time updates using SignalR to notify students and admins of important actions.
+- **Role-Based Access Control**:
+  - Ensures secure and role-specific access to system features.
 
 ---
 
@@ -143,6 +160,10 @@ EduEval is a Question-Based Exam System. Here are the core relationships and wor
 
 ## Future Enhancements
 
+- Integration of advanced reporting and analytics for admin.
+- Role-based access control for enhanced security.
+- Support for timed exams with real-time countdown.
+- Email notifications for exam schedules and results.
 - Multi-language support for a global audience.
 
 ---
