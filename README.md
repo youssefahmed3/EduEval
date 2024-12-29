@@ -143,10 +143,6 @@ EduEval is a Question-Based Exam System. Here are the core relationships and wor
 
 ## Future Enhancements
 
-- Integration of advanced reporting and analytics for admin.
-- Role-based access control for enhanced security.
-- Support for timed exams with real-time countdown.
-- Email notifications for exam schedules and results.
 - Multi-language support for a global audience.
 
 ---
