@@ -1,0 +1,92 @@
+<div class="w-full flex flex-col gap-5 justify-between h-full">
+    <app-header />
+    <div class="flex flex-col gap-3">
+        <div class="flex gap-2 items-center">
+          <div
+          class="w-[50px] h-[50px] bg-primary_navy_blue rounded-xl cursor-pointer text-background p-[8px]"
+          routerLink="/admin/subjects"
+        >          
+          <img src="assets/back.svg" class="w-[35px] h-[35px]" />
+      </div>
+            <h1 class="text-3xl font-bold">All Exams Associated With {{subject?.subjectName}}</h1>
+
+        </div>
+      <app-table>
+        <thead class="font-bold text-background">
+          <tr class="bg-accent_blue">
+            <th></th>
+            <th>Exam Title</th>
+            <th>Duration</th>
+            <th>CreatedAt</th>
+            <th>Questions</th>
+            <th>Attended Students</th>
+
+          </tr>
+        </thead>
+        <!-- <ng-content select="[selector]" /> -->
+        @for(exam of exams; track exam.id) {
+        <tr class="">
+          <th>{{ exam.id }}</th>
+          <td>{{ exam.examTitle }}</td>
+          <td>{{ exam.duration }}</td>
+          <td>{{ exam.createdAt | date: 'EEEE d MMMM y HH:mm:ss' }}</td>
+          <td>
+            <button
+              class="btn bg-secondary_gold text-text border-0 hover:bg-accent_blue hover:border-3"
+              (click)="openModalQuestion(exam)"
+              routerLink="/admin/subjects/{{subject?.id}}/exams/{{exam.id}}/questions"
+            >
+              Open
+            </button>
+          </td>
+          <td><button
+            class="btn bg-secondary_gold text-text border-0 hover:bg-accent_blue hover:border-3"
+            (click)="openModalAttendedStudents(exam.studentsExams)"
+          >
+            Open
+          </button></td>
+          
+        </tr>
+        }
+      </app-table>
+      <div class="join flex jus gap-2 self-center">
+        @for(pageNumber of paginationNumbers; track pageNumber) {
+          <button
+            class="{{currentPage == pageNumber ? 'bg-primary_navy_blue text-background' : 'text-text'}} join-item btn bg-accent_blue  border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+            (click)="onPageClick(pageNumber)"
+          >
+            {{ pageNumber }}
+          </button>
+          }
+      </div>
+      
+      <!-- Attended Students Modal -->
+      <dialog #attendedStudentsModal class="modal text-background">
+        <div class="modal-box bg-accent_blue">
+          <form method="dialog">
+            <button
+              class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              (click)="closeModalQuestion()"
+            >
+              ✕
+            </button>
+          </form>
+          <h3 class="text-lg font-bold">Attended students</h3>
+          <p class="py-4">
+            @if(attendedStudents == null || [] ) {
+              <p class="text-center text-text font-bold">No Students Attended This Exam</p>
+            }
+            @else {
+              @for(studentExam of attendedStudents; track studentExam.studentId) {
+                <div class="flex justify-between p-2 bg-primary_navy_blue rounded-md ">
+                  <p>{{studentExam.student.fullName}}</p>
+                  <p>{{studentExam.score}} %</p>
+                </div>
+              }
+            }
+          </p>
+        </div>
+      </dialog>
+    </div>
+  </div>
+  

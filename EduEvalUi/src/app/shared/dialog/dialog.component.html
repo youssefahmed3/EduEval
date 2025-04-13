@@ -1,0 +1,22 @@
+<!-- You can open the modal using ID.showModal() method -->
+<button
+  class="btn bg-secondary_gold text-text border-0 hover:bg-accent_blue hover:border-3"
+  onclick="my_modal_3.showModal()"
+>
+  {{dialogTitle}}
+</button>
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box bg-accent_blue">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+    </form>
+    <h3 class="text-lg font-bold mb-4">{{dialogTitle}}</h3>
+    
+    <div>
+        <ng-content select="" />
+    </div>
+        
+  </div>
+</dialog>

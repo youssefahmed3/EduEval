@@ -1,0 +1,12 @@
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\bin\Debug\net8.0\Shared.deps.json
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\bin\Debug\net8.0\Shared.dll
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\bin\Debug\net8.0\Shared.pdb
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.sourcelink.json
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.dll
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\refint\Shared.dll
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\Shared.pdb
+E:\programming\Internships\Atos\EduEval\EduEvalApi\Shared\obj\Debug\net8.0\ref\Shared.dll

@@ -1,0 +1,119 @@
+<!-- Header -->
+<div class="flex flex-wrap justify-between items-center">
+  <div>
+    <h1 class="text-xl font-bold">Hello, {{ currentUserData?.fullName }}</h1>
+    <p>Its {{currentDate | date: 'EEEE d MMMM y'}}</p>
+  </div>
+  @if(currentUserData?.role == "Admin") {
+    <div class="flex gap-3">
+      <!-- Header -->
+  
+      <div class="flex gap-3 flex-wrap">
+        <app-button
+          buttonText="Add A New Question"
+          routerLink="/admin/dashboard/add-new-question"
+        />
+  
+        <div
+          class="btn bg-accent_blue text-background hover:bg-primary_navy_blue hover:text-background hover:border-accent_blue hover:border-3 Active:bg-primary_navy_blue Active:text-background Active:border-accent_blue Active:border-3"
+          onclick="addSubjectModal.showModal()"
+        >
+          Add A New Subject
+        </div>
+        <dialog id="addSubjectModal" class="modal text-white">
+          <div class="modal-box bg-primary_navy_blue">
+            <form method="dialog">
+              <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+            <h3 class="text-lg font-bold">Add A New Subject</h3>
+            <form (ngSubmit)="onSubmitSubject()" class="flex flex-col gap-2">
+              <app-input
+                inputName="Subject Title"
+                textTitleColor="text-background"
+                [(ngModel)]="SubjectTitle"
+                name="SubjectTitle"
+                required
+              />
+              <app-input
+                inputName="Subject Description"
+                textTitleColor="text-background"
+                [(ngModel)]="SubjectDescription"
+                name="SubjectDescription"
+                required
+              />
+              
+              <app-button buttonText="Add Subject" />
+              <div class="text-danger font-bold text-center">
+                {{errorSubjectForm}}
+              </div>
+            </form>
+          </div>
+        </dialog>
+  
+        <div
+          class="btn bg-accent_blue text-background hover:bg-primary_navy_blue hover:text-background hover:border-accent_blue hover:border-3 Active:bg-primary_navy_blue Active:text-background Active:border-accent_blue Active:border-3"
+          onclick="AddExamModal.showModal()"
+        >
+          Create A New Exam
+        </div>
+        <dialog id="AddExamModal" class="modal text-white">
+          <div class="modal-box bg-primary_navy_blue">
+            <form method="dialog">
+              <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+            <h3 class="text-lg font-bold">Create A New Exam</h3>
+            <form (ngSubmit)="onSubmitExam()" class="flex flex-col gap-2">
+              <app-input
+                inputName="Exam Title"
+                textTitleColor="text-background"
+                [(ngModel)]="ExamTitle"
+                name="ExamTitle"
+                required
+              />
+              <app-input
+                inputName="Exam Duration In Mins"
+                textTitleColor="text-background"
+                [(ngModel)]="ExamDurationInMins"
+                name="ExamDurationInMins"
+                type="number"
+                required
+              />
+              <div class="flex justify-between pr-2 pl-2 items-center">
+                <p class="text-background font-bold text-xl">Subject</p>
+                <app-select
+                  selectTitle="Select Subject"
+                  [(ngModel)]="selectedSubjectId"
+                  name="subject"
+                  [initialValue]="0"
+                  required
+                >
+                @for(subject of subjects; track subject.id) {
+                  <option class="text-primary_navy_blue" [value]="subject.id">
+                    {{ subject.subjectName }}
+                  </option>
+                  }
+                </app-select>
+              </div>
+              <app-button buttonText="Create Exam" />
+              <div class="text-danger font-bold text-center">
+                {{errorExamForm}}
+              </div>
+            </form>
+          </div>
+        </dialog>
+      </div>
+  
+      <!-- End Of Header -->
+    </div>
+
+  }
+  <!-- End Of Header -->
+</div>

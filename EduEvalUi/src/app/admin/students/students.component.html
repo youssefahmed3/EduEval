@@ -1,0 +1,82 @@
+<div class="w-full flex flex-col gap-5 justify-between h-full">
+  <app-header />
+  <div class="flex flex-col gap-3">
+    <h1 class="text-3xl font-bold">All Students</h1>
+    <app-table>
+      <thead class="font-bold text-background">
+        <tr class="bg-accent_blue">
+          <th></th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th>Exams</th>
+          <th>isActive</th>
+          <th></th>
+        </tr>
+      </thead>
+      <!-- <ng-content select="[selector]" /> -->
+      @for(student of allStudents; track student.id) {
+      <tr class="">
+        <th>{{ student.id }}</th>
+        <td>{{ student.firstName }}</td>
+        <td>{{ student.lastName }}</td>
+        <td>{{ student.userName }}</td>
+        <td>
+          <!-- Use a unique reference for each modal -->
+          <button
+            class="btn bg-secondary_gold text-text border-0 hover:bg-accent_blue hover:border-3"
+            (click)="openModal(student)"
+          >
+            Open
+          </button>
+        </td>
+        <td>{{ student.isActive }}</td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="student.isActive ? 'checked' : ''"
+            class="checkbox bg-background border-accent_blue border-3"
+          />
+        </td>
+      </tr>
+      }
+    </app-table>
+    <div class="join flex jus gap-2 self-center">
+      @for(pageNumber of paginationNumbers; track pageNumber) {
+        <button
+          class="{{currentPage == pageNumber ? 'bg-primary_navy_blue text-background' : 'text-text'}} join-item btn bg-accent_blue  border-none hover:text-background hover:bg-primary_navy_blue active:text-background active:bg-primary_navy_blue"
+          (click)="onPageClick(pageNumber)"
+        >
+          {{ pageNumber }}
+        </button>
+        }
+    </div>
+    <!-- Exam Modal -->
+    <dialog #examModal class="modal text-background">
+      <div class="modal-box bg-accent_blue">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            (click)="closeModal()"
+          >
+            ✕
+          </button>
+        </form>
+        <h3 class="text-lg font-bold">Exam Information for {{ selectedStudent?.firstName }}</h3>
+        <p class="py-4">
+          @if(selectedStudent?.studentsExams == null || selectedStudent?.studentsExams!.length == 0) {
+            <p class="text-center text-text font-bold">No Exams For {{selectedStudent?.firstName}}</p>
+          }
+          @else {
+            @for(exam of selectedStudent?.studentsExams; track exam.examId) {
+              <div class="flex justify-between p-2 rounded-md bg-primary_navy_blue">
+                <p>{{exam.exam.examTitle}}</p>
+                <p>{{exam.score}} %</p>
+              </div>
+            }
+          }
+        </p>
+      </div>
+    </dialog>
+  </div>
+</div>

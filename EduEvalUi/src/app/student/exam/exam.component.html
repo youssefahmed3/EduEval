@@ -1,0 +1,114 @@
+<div class="w-full flex flex-col mt-2">
+  <!-- Progress Bar and Timer -->
+  <div class="flex items-center justify-center gap-2">
+    <progress
+      class="progress w-[40%] bg-primary_navy_blue"
+      [value]="progress"
+      max="100"
+    ></progress>
+    <button
+      class="btn bg-accent_blue text-background"
+      onclick="my_modal_3.showModal()"
+    >
+      Review
+    </button>
+    <div class="bg-primary_navy_blue text-background flex gap-2 p-2 rounded-lg">
+      <img src="assets/Clock.svg" class="w-[50px] h-[50px]" alt="" />
+      <div>
+        <p>Time Left</p>
+        <p>{{ formattedTime }}</p>
+      </div>
+    </div>
+    <dialog id="my_modal_3" class="modal">
+      <div class="modal-box bg-primary_navy_blue text-background">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <h3 class="text-lg font-bold">Review Your Answers</h3>
+        <div class="flex flex-col gap-4">
+          @for (question of examDetails?.examQuestions; track question.questionId; let idx = $index) {
+          <div class="flex justify-between bg-accent_blue p-2 rounded-md">
+            <p>Question {{ idx + 1 }}</p>
+            @if (selectedAnswers[question.questionId]) {
+            <p>Your Answer: {{ selectedAnswers[question.questionId] }}</p>
+            } @else {
+            <p>Your Answer: N/A</p>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <!-- Question Section -->
+  <div class="flex flex-col gap-4 w-[60%] self-center">
+    <h1 class="text-3xl font-bold">
+      Question {{ currentQuestionIndex + 1 }} of
+      {{ (examDetails?.examQuestions)!.length }}
+    </h1>
+    @if(examDetails!.examQuestions[currentQuestionIndex]) {
+    <div class="p-3 border-2 border-primary_navy_blue rounded-lg text-justify">
+      {{
+        examDetails!.examQuestions[currentQuestionIndex].questionsLibrary
+          .questionText
+      }}
+    </div>
+    }
+    <hr class="border-2 border-primary_navy_blue" />
+
+    <!-- Choices -->
+    <div class="flex flex-col gap-3">
+      @for(choice of examDetails!.examQuestions[currentQuestionIndex].questionsLibrary.choices ; track choice.id) {
+      <div
+        class="bg-accent_blue text-background p-2 rounded-lg flex justify-between"
+  
+      >
+        <p>{{ choice.choiceText }}</p>
+        <input
+          type="radio"
+          [name]="'question' + currentQuestionIndex"
+          class="radio bg-background border-4 border-primary_navy_blue"
+          [checked]="
+            selectedAnswers[
+              examDetails!.examQuestions[currentQuestionIndex].questionId
+            ] === choice.id
+          "
+          (change)="updateAnswer(choice.id)"
+        />
+      </div>
+      }
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between mt-4 text-background">
+      <div></div>
+      <div class="flex gap-2 items-center">
+        <button
+        class="btn bg-primary_navy_blue"
+        [disabled]="currentQuestionIndex === 0"
+        (click)="prevQuestion()"
+      >
+        Previous
+      </button>
+      <button
+        class="btn bg-primary_navy_blue text-background"
+        [disabled]="
+          currentQuestionIndex === (examDetails!.examQuestions.length ?? 1) - 1
+        "
+        (click)="nextQuestion()"
+      >
+        Next
+      </button>
+      </div>
+      <div class="btn bg-success text-background" (click)="submitExam()">
+        Submit Exam
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,76 @@
+<div class="drawer lg:drawer-open">
+  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col items-center justify-center">
+    <!-- Page content here -->
+    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+      Open drawer
+    </label>
+  </div>
+  <div class="drawer-side">
+    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-"></label>
+    <ul
+      class="menu text-base-content min-h-full w-80 p-4 bg-primary_navy_blue rounded-r-lg justify-between"
+    >
+      <div class="flex flex-col gap-2">
+        <div
+          class="rounded-full overflow-hidden w-[150px] h-[150px] bg-white mr-auto ml-auto"
+        >
+          <img
+            src="assets/edited_image.png"
+            alt="logo"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <!-- Sidebar content here -->
+
+        <div class="flex flex-col gap-4">
+          @if(userRole == 'Admin') {
+          <app-sidebar-menu menuTitle="Administration">
+            <app-button buttonText="Dashboard" routerLink="/admin/dashboard" />
+            <app-button buttonText="Students" routerLink="/admin/students" />
+          </app-sidebar-menu>
+
+          <app-sidebar-menu menuTitle="Content Management">
+            <app-button buttonText="Subjects" routerLink="/admin/subjects" />
+            <app-button buttonText="Exams" routerLink="/admin/exams" />
+          </app-sidebar-menu>
+
+          <app-sidebar-menu menuTitle="User Settings">
+            <app-button buttonText="Profile" routerLink="/admin/profile" />
+          </app-sidebar-menu>
+          } @else if (userRole == 'Student') {
+          <app-sidebar-menu menuTitle="Content">
+            <app-button buttonText="Exams" routerLink="/student/exams" />
+            <app-button
+              buttonText="My Exam History"
+              routerLink="/student/history"
+            />
+          </app-sidebar-menu>
+
+          <app-sidebar-menu menuTitle="User">
+            <app-button buttonText="Profile" routerLink="/student/profile" />
+          </app-sidebar-menu>
+          }
+        </div>
+      </div>
+      <div
+        class="flex justify-between items-center bg-secondary_gold text-text p-3 rounded-lg font-bold"
+      >
+        {{ userData?.fullName }}
+
+        <div
+          class="btn cursor-pointer select-none flex bg-background rounded-md pr-2 pl-2 hover:bg-background"
+          routerLink="/admin/notifications"
+        >
+        <img src="assets/notificiation.svg" class="w-[30px] h-[30px]" />
+        </div>
+        <div
+          class="btn cursor-pointer select-none flex bg-background rounded-md p-0 hover:bg-background"
+          (click)="logout()"
+        >
+          <img src="assets/Subtract.svg" class="w-[35px] h-[35px]" />
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>

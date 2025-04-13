@@ -1,0 +1,35 @@
+<div class="w-full flex flex-col gap-5 justify-around h-full">
+  <app-header />
+  <h1 class="text-3xl font-bold">Exam History</h1>
+  <div class="flex gap-2 justify-start flex-wrap">
+    @for (studentExams of studentHistory; track studentExams.examId) {
+    <div
+      class="bg-primary_navy_blue flex flex-col text-background p-3 rounded-md gap-10 w-full sm:w-[48%] md:w-[32%]"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <h3 class="text-xl font-bold">
+            {{ studentExams.exam.examTitle }} •
+            {{ studentExams.exam.subject.subjectName }}
+          </h3>
+        </div>
+        <p>{{ studentExams.score }} %</p>
+      </div>
+      <div class="flex justify-between items-center">
+        <p>SubmittedAt:</p>
+        <div class="flex flex-col gap-2 items-start">
+          <div class="text-background">
+            {{ studentExams.submittedAt }}
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- 
+    
+    
+    
+    -->

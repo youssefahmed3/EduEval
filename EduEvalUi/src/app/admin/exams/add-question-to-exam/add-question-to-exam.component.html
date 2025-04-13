@@ -1,0 +1,78 @@
+<div class="w-full flex flex-col gap-5 justify-around h-full">
+  <app-header />
+  <form
+    class="w-full flex flex-col gap-5 justify-around h-full"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex justify-between">
+      <div class="flex items-center gap-4">
+        <div
+          class="w-[50px] h-[50px] bg-primary_navy_blue rounded-xl cursor-pointer text-background p-[8px]"
+          routerLink="/admin/exams/{{ examId }}/questions"
+        >
+          <img src="assets/back.svg" class="w-[35px] h-[35px]" />
+        </div>
+        <p class="text-text text-2xl font-bold">Add An Existing Question</p>
+        <p class="text-danger font-bold">
+          All The Questions Is in the same Subject
+        </p>
+      </div>
+
+      <app-button buttonText="Add A Question" />
+    </div>
+
+    <div class="flex gap-2 items-center">
+      <p class="text-text text-xl font-bold">Question</p>
+      <app-select
+        selectTitle="Select Question"
+        [(ngModel)]="selectedQuestionId"
+        name="question"
+        [initialValue]="0"
+        required
+        (ngModelChange)="updateCurrentQuestion()"
+      >
+        @for(Question of Questions; track Question.id) {
+        <option class="text-primary_navy_blue" [value]="Question.id">
+          Question {{ Question.id }}
+        </option>
+        }
+      </app-select>
+    </div>
+
+    <hr class="border-10 border-primary_navy_blue" />
+    <h2 class="text-xl font-bold">Preview The Question</h2>
+    @if(currentQuestion) {
+    <div
+      class="flex flex-col gap-2 rounded-md text-justify bg-accent_blue text-background p-2"
+    >
+      <p class="text-text text-2xl font-bold">
+        Question Text
+        <span class="badge bg-primary_navy_blue text-background">
+          {{ currentQuestion.difficulty }}
+        </span>
+      </p>
+      <p class="text-xl">
+        {{ currentQuestion.questionText }}
+      </p>
+    </div>
+    <div class="flex flex-col">
+      <p class="text-text text-xl font-bold">Choices</p>
+      <div class="flex gap-2">
+        @for(choice of currentQuestion.choices; track choice.id) {
+        <div
+          class="flex place-items-center bg-primary_navy_blue text-background pr-6 pl-6 rounded-md {{
+            choice.isCorrect ? 'bg-success' : ''
+          }}"
+        >
+          <p class="text-xl font-bold text-background">
+            {{ choice.choiceText }}
+          </p>
+        </div>
+        }
+      </div>
+    </div>
+    
+    }
+    <p class="text-danger text-xl font-bold text-center">{{error}}</p>
+  </form>
+</div>

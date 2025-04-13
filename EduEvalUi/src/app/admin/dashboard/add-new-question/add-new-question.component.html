@@ -1,0 +1,124 @@
+<form
+  class="w-full flex flex-col gap-5 justify-around h-full"
+  (ngSubmit)="onSubmitQuestion()"
+>
+  <div class="flex justify-between">
+    <p class="text-text text-2xl font-bold">Add a New Question</p>
+    <app-button buttonText="Add A Question" />
+  </div>
+  <app-textarea
+    inputName="Question"
+    [(ngModel)]="QuestionText"
+    name="QuestionText"
+    required
+  />
+
+  <div class="flex gap-2 items-center">
+    <p class="text-text text-xl font-bold">Difficulty</p>
+    <app-select
+      selectTitle="Difficulty"
+      [(ngModel)]="selectedDifficulty"
+      name="difficulty"
+      [initialValue]="'Difficulty'"
+      required
+    >
+      <option class="text-primary_navy_blue">Easy</option>
+      <option class="text-primary_navy_blue">Medium</option>
+      <option class="text-primary_navy_blue">Hard</option>
+      <option class="text-primary_navy_blue">Extreme</option>
+    </app-select>
+  </div>
+
+  <div class="flex gap-2 items-center">
+    <p class="text-text text-xl font-bold">Subject</p>
+    <app-select
+      selectTitle="Select Subject"
+      [(ngModel)]="selectedSubjectId"
+      name="subject"
+      [initialValue]="0"
+      required
+    >
+      @for(subject of subjects; track subject.id) {
+      <option class="text-primary_navy_blue" [value]="subject.id">
+        {{ subject.subjectName }}
+      </option>
+      }
+    </app-select>
+  </div>
+
+  <div class="flex gap-2 items-center">
+    <p class="text-text text-xl font-bold">Show All Choices</p>
+
+    <div
+      class="btn bg-secondary_gold text-text border-none hover:bg-accent_blue hover:text-white"
+      onclick="my_modal_3.showModal()"
+    >
+      open
+    </div>
+    <dialog id="my_modal_3" class="modal text-white">
+      <div class="modal-box bg-accent_blue">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-lg font-bold">All Choices Related To The Question <span class="text-background bg-primary_navy_blue p-2 rounded-xl">{{AllChoices.length}}</span> </h3>
+
+          @if(AllChoices == null) {
+          <p class="text-text text-lg font-bold text-center">
+            No Choices Found
+          </p>
+          } @else { @for(Choice of AllChoices; track Choice) {
+          <div class="bg-primary_navy_blue flex justify-between p-2 rounded-lg">
+            <p>{{ Choice.choiceText }}</p>
+            {{ Choice.isCorrect ? "Correct" : "Not Correct" }}
+          </div>
+          } }
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <hr class="border-10 border-primary_navy_blue" />
+
+  <form class="flex flex-col gap-3 w-full" (ngSubmit)="onSubmitChoice()">
+    <div class="flex justify-between">
+      <p class="text-text text-2xl font-bold">Add a Choice</p>
+      <app-button buttonText="Add a Choice" />
+    </div>
+
+    <div class="flex justify-between items-center w-full">
+      <app-input
+        inputName="Choice Text"
+        [(ngModel)]="choiceText"
+        name="choiceText"
+        required
+      />
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <input
+            type="checkbox"
+            checked="checked"
+            class="checkbox"
+            [(ngModel)]="isCorrect"
+            name="isCorrect"
+          />
+          <span class="label-text text-text">Is Correct</span>
+        </label>
+      </div>
+    </div>
+    @if(errorQuestionSubmission) {
+      <div class="text-danger text-center">
+        <span class="font-bold">Question Submission Error:</span>{{errorQuestionSubmission}}
+      </div>  
+    }
+    @if(errorChoicesSubmission) {
+      <div class="text-danger text-center">
+        <span class="font-bold">Choice Submission Error:</span>{{errorChoicesSubmission}}
+      </div>
+    }
+  </form>
+</form>

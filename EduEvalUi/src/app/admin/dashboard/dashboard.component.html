@@ -1,0 +1,66 @@
+<div class="w-full flex flex-col gap-5 justify-around h-full">
+  <app-header />
+  <!-- Start Of Stats -->
+
+  <div class="flex gap-10 justify-center">
+    <app-stat
+      statTitle="Total Students"
+      [statValue]="totalStudentCount.toString()"
+      statDesc="21% more than last month"
+    />
+    <app-stat
+      statTitle="Total Subjects"
+      [statValue]="totalSubjectCount.toString()"
+      statDesc="21% more than last month"
+    />
+    <app-stat
+      statTitle="Total Exams"
+      [statValue]="totalExamsCount.toString()"
+      statDesc="21% more than last month"
+    />
+  </div>
+
+  <!-- End Of Stats -->
+
+  <!--  -->
+
+  <div class="flex flex-col lg:flex-row items-center gap-5 justify-around">
+    <div
+      class="bg-accent_blue flex flex-col w-full md:w-[400px] rounded-md p-4 gap-3"
+    >
+      <div class="flex justify-between">
+        <h3>Recent Exams</h3>
+        <p>Last 5 Exams</p>
+      </div>
+      <div class="flex flex-col gap-3 h-[350px]">
+        @for(RecentExam of RecentExams; track RecentExam) {
+          <app-recent-exam-card
+            [ExamTitle]="RecentExam.examTitle"
+            [SubjectTitle]="RecentExam.subject.subjectName"
+            [NumberOfQuestion]="RecentExam.examQuestions.length.toString()"
+            [totalMinsOfExam]="RecentExam.duration.toString()"
+          />
+        }
+      </div>
+    </div>
+
+    <div
+      class="bg-accent_blue flex flex-col w-full md:w-[400px] rounded-md p-4 gap-3"
+    >
+      <div class="flex justify-between">
+        <h3>Top Students</h3>
+        <p>Best 5 Students</p>
+      </div>
+      <div class="flex flex-col gap-5 h-[350px]">
+        @for(RecentStudent of RecentStudents; track RecentStudent) {
+          <app-top-student-card [StudentName]="RecentStudent.fullName" [AvgScore]="RecentStudent.averageScore" />
+        }
+
+
+        
+      </div>
+    </div>
+  </div>
+
+  
+</div>
